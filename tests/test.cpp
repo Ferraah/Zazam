@@ -4,19 +4,19 @@
 using namespace std;
 
 int main(){
-    HashGenerator generator;
+    HashGenerator hash_generator;
 
     // N rows, M columns
     int n = 3 , m = 20; 
-    Matrix input(n,m), output;
+    Matrix_d input(n,m);
+    Vector_ui hash;
     for(int y=0; y<n; y++){
         for(int x=0; x<m; x++){
             input(y,x) = x;
         }
     }
-
-    generator.reduce_spectrogram(input, output);
-    cout << output;
+    hash_generator.generate(input, hash);
+    cout << hash;
 
     
 }

@@ -1,7 +1,28 @@
 #include "HashGenerator.hpp"
 #include <iostream>
-void HashGenerator::generate(Matrix& spectrogram, Vector& result) const{
 
+void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
+
+    Matrix_d key_points_matrix;
+    int rows_number = spectrogram.dimension(0);
+    int cols_number = zazam::KeyPointsNumber;
+    
+    // Create key points matrix
+    std::cout << spectrogram<< std::endl;
+    reduce_spectrogram(spectrogram, key_points_matrix);
+    std::cout << key_points_matrix << std::endl;
+    // Inizialize hash vector
+    result = Vector_ui(rows_number);
+
+    int hash;
+    for(int i=0; i<rows_number; i++){
+        hash = cols_number; // Any other number other than 0 will work
+        for(int j=0; j<cols_number; j++){
+            hash = 17 * hash + key_points_matrix(i, j);
+        }
+        result(i) = hash;
+    }
+        
 }
 
 /**
@@ -10,12 +31,12 @@ void HashGenerator::generate(Matrix& spectrogram, Vector& result) const{
  * 
 */
 
-void HashGenerator::reduce_spectrogram(Matrix& spectrogram, Matrix& key_points_matrix) {
-    Vector row;
+void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_points_matrix) {
+    Vector_d row;
     int rows_number = spectrogram.dimension(0);
 
     // Initialize new matrix
-    key_points_matrix = Matrix(rows_number, zazam::KeyPointsNumber);
+    key_points_matrix = Matrix_d(rows_number, zazam::KeyPointsNumber);
 
     for(int y=0; y < rows_number; y++ ){
 
@@ -27,14 +48,14 @@ void HashGenerator::reduce_spectrogram(Matrix& spectrogram, Matrix& key_points_m
 
 }
 
-void HashGenerator::reduce_vector(const Vector& input, Vector& output){
+void HashGenerator::reduce_vector(const Vector_d& input, Vector_d& output){
     int range_dim =
         (zazam::KeyPointsRange.second - zazam::KeyPointsRange.first) / zazam::KeyPointsNumber;
 
     int offset = zazam::KeyPointsRange.first-1;
-    Vector sub_vector(range_dim);
+    Vector_d sub_vector(range_dim);
 
-    output = Vector(zazam::KeyPointsNumber);
+    output = Vector_d(zazam::KeyPointsNumber);
     for(int j=0; j<zazam::KeyPointsNumber; j++){
         
         // Create subvector
@@ -43,10 +64,14 @@ void HashGenerator::reduce_vector(const Vector& input, Vector& output){
             sub_vector(i) = input(offset+i);
         }
 
-        // Finding the maximum of the sub-vector
-        Eigen::Tensor<double, 0> MaxAsTensor = sub_vector.maximum();
-        output(j) =  MaxAsTensor(0); 
+        // Finding the index of the maximum of the sub-vector
+        output(j) = offset +find_max_element_index(sub_vector); 
 
         offset += range_dim; 
     } 
+}
+
+int HashGenerator::find_max_element_index(const Vector_d& input){
+    const double *max = std::max_element(input.data(), input.data()+input.size());
+    return std::distance(input.data(), max);
 }

@@ -5,13 +5,21 @@
 #include <utility>
 
 namespace zazam{
-    
-    using Vector = Eigen::Tensor<double, 1>;
-    using Matrix = Eigen::Tensor<double, 2>;
+
+    template<typename ScalarType>    
+    using Vector = Eigen::Tensor<ScalarType, 1>;
+    template<typename ScalarType>    
+    using Matrix = Eigen::Tensor<ScalarType, 2>;
+
+    using Matrix_d = Matrix<double>;
+    using Vector_d = Vector<double>;
+
+    using Vector_ui = Vector<unsigned int>;
+
 
     struct SongHash{
         std::string title;
-        Vector hash;
+        Vector_ui hash;
     };
 
     // The range of frequencies to subdivide 
