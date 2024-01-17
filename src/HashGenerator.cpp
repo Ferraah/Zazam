@@ -12,15 +12,19 @@ void HashGenerator::generate(Matrix& spectrogram, Vector& result) const{
 
 void HashGenerator::reduce_spectrogram(Matrix& spectrogram, Matrix& key_points_matrix) {
     Vector row;
-
+    int rows_number = spectrogram.dimension(0);
 
     // Initialize new matrix
-    key_points_matrix = Matrix(zazam::KeyPointsNumber, spectrogram.dimension(1));
+    key_points_matrix = Matrix(rows_number, zazam::KeyPointsNumber);
 
-    for(int y=0; y < spectrogram.dimension(1); y++ ){
-        reduce_vector(spectrogram.chip(y,1), row);
-        key_points_matrix.chip(y,1) = row;
+    for(int y=0; y < rows_number; y++ ){
+
+        reduce_vector(spectrogram.chip(y,0), row);
+//        std::cout << spectrogram.chip(y, 0) << std::endl;
+        key_points_matrix.chip(y,0) = row;
+
     }
+
 }
 
 void HashGenerator::reduce_vector(const Vector& input, Vector& output){
