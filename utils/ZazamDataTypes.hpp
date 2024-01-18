@@ -17,16 +17,16 @@ namespace zazam{
     using Vector_ui = Vector<unsigned int>;
 
 
-    struct SongHash{
+    struct Song{
         std::string title;
         Vector_ui hash;
     };
 
     // The range of frequencies to subdivide 
-    std::pair<int, int> KeyPointsRange = {2, 18};
+    static const std::pair<int, int> KeyPointsRange = {2,18};
 
     // The number of key points to use
-    int KeyPointsNumber = 4;
+    static const int KeyPointsNumber = 4;
 }
 
 #endif

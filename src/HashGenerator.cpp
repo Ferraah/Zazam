@@ -65,13 +65,9 @@ void HashGenerator::reduce_vector(const Vector_d& input, Vector_d& output){
         }
 
         // Finding the index of the maximum of the sub-vector
-        output(j) = offset +find_max_element_index(sub_vector); 
+        output(j) = offset + utils::find_max_element_index(sub_vector); 
 
         offset += range_dim; 
     } 
 }
 
-int HashGenerator::find_max_element_index(const Vector_d& input){
-    const double *max = std::max_element(input.data(), input.data()+input.size());
-    return std::distance(input.data(), max);
-}
