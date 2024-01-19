@@ -16,6 +16,7 @@ namespace zazam{
 
     using Vector_ui = Vector<unsigned int>;
 
+    using e_index = int; 
 
     struct Song{
         std::string title;

@@ -4,8 +4,8 @@
 void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
 
     Matrix_d key_points_matrix;
-    int rows_number = spectrogram.dimension(0);
-    int cols_number = zazam::KeyPointsNumber;
+    e_index rows_number = spectrogram.dimension(0);
+    e_index cols_number = zazam::KeyPointsNumber;
     
     // Create key points matrix
     std::cout << spectrogram<< std::endl;
@@ -15,9 +15,9 @@ void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
     result = Vector_ui(rows_number);
 
     int hash;
-    for(int i=0; i<rows_number; i++){
+    for(e_index i = 0; i<rows_number; i++){
         hash = cols_number; // Any other number other than 0 will work
-        for(int j=0; j<cols_number; j++){
+        for(e_index j=1; j<cols_number; j++){
             hash = 17 * hash + key_points_matrix(i, j);
         }
         result(i) = hash;
@@ -33,12 +33,12 @@ void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
 
 void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_points_matrix) {
     Vector_d row;
-    int rows_number = spectrogram.dimension(0);
+    e_index rows_number = spectrogram.dimension(0);
 
     // Initialize new matrix
     key_points_matrix = Matrix_d(rows_number, zazam::KeyPointsNumber);
 
-    for(int y=0; y < rows_number; y++ ){
+    for(e_index y=0; y < rows_number; y++ ){
 
         reduce_vector(spectrogram.chip(y,0), row);
 //        std::cout << spectrogram.chip(y, 0) << std::endl;
@@ -49,17 +49,17 @@ void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_poin
 }
 
 void HashGenerator::reduce_vector(const Vector_d& input, Vector_d& output){
-    int range_dim =
+    e_index range_dim =
         (zazam::KeyPointsRange.second - zazam::KeyPointsRange.first) / zazam::KeyPointsNumber;
 
-    int offset = zazam::KeyPointsRange.first-1;
+    e_index offset = zazam::KeyPointsRange.first-1;
     Vector_d sub_vector(range_dim);
 
     output = Vector_d(zazam::KeyPointsNumber);
-    for(int j=0; j<zazam::KeyPointsNumber; j++){
+    for(e_index j=0; j<zazam::KeyPointsNumber; j++){
         
         // Create subvector
-        for(int i=0; i<range_dim; i++){
+        for(e_index i=0; i<range_dim; i++){
            // std::cout << offset+i << std::endl;
             sub_vector(i) = input(offset+i);
         }

@@ -41,6 +41,12 @@ namespace zazam{
             }
             std::cout << "]" <<std::endl;
         }
+        template<typename T>
+        void std_to_eigen_vector(std::vector<T> &vector, Vector<T> &eigen_vector, size_t begin, e_index dimension){
+            for(e_index i=0; i<dimension; i++){
+                eigen_vector(i) = vector[begin+i];
+            } 
+        } 
     }
 } 
 
