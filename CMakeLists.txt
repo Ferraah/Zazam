@@ -1,33 +1,46 @@
+# establishes policy settings and ensures that the following CMake
+# functions are run with a compatible version of CMake
 cmake_minimum_required(VERSION 3.10)
 
+# Project name and version
 project(ZAZAM VERSION 1.0)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB_RECURSE SOURCES "src/*.cpp" "utils/*.cpp")
-add_library(ZAZAM SHARED ${SOURCES})
-target_include_directories(ZAZAM PUBLIC "${PROJECT_DIRECTORY}")
+# Define default build type if not provided
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+endif()
 
-# Find Eigen3
-find_package(Eigen3 REQUIRED NO_MODULE
-    HINTS $ENV{mkEigenPrefix})
+# Set build type options
+set_property(CACHE CMAKE_BUILD_TYPE PROPERTY
+  STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 
-
-#include fftw3
-target_include_directories(ZAZAM PUBLIC "${FFTW3_DIR}/include")
-# Link directories for the FFTW3 library
-target_link_directories(ZAZAM PUBLIC "${FFTW3_DIR}/lib")
-
-target_link_libraries(ZAZAM PUBLIC Eigen3::Eigen)
+# Set compiler flags for different build types
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Include ffft library
-target_include_directories(ZAZAM PRIVATE FFT-Carra-Ferrario-Gentile/ffft)
+add_subdirectory(FFT-Carra-Ferrario-Gentile/ffft)
 
-# Include Audiofilee library
-target_include_directories(ZAZAM PUBLIC AudioFile)
+file(GLOB_RECURSE SOURCES "src/*.cpp" "utils/*.cpp")
+add_library(ZAZAM SHARED ${SOURCES})
 
+# Define executable target
 add_executable(test.out tests/test.cpp)
-target_link_libraries(test.out PUBLIC ZAZAM)
-#target_include_directories(test.out PUBLIC "${PROJECT_SOURCE_DIR}/src" ${EIGEN3_INCLUDE_DIR})
+
+# link the library to link to the executable
+target_link_libraries(ZAZAM PUBLIC FFFT) 
+target_link_libraries(test.out PUBLIC ZAZAM) 
+
+# specify the library's header file location
+target_include_directories(test.out PUBLIC
+                          "${PROJECT_SOURCE_DIR}/FFT-Carra-Ferrario-Gentile/ffft/include"
+                          )
+
+target_include_directories(test.out PUBLIC
+                          "${PROJECT_SOURCE_DIR}/AudioFile"
+                          )
+

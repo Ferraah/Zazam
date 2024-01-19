@@ -6,6 +6,8 @@
 #include "../utils/MusicTensor.hpp"
 #include "../utils/Utils.hpp"
 #include "../FFT-Carra-Ferrario-Gentile/ffft/include/ffft.hpp"
+#include "../FFT-Carra-Ferrario-Gentile/ffft/src/spectrogram/Spectrogram.hpp"
+#include "../FFT-Carra-Ferrario-Gentile/ffft/src/spectrogram/SpectrogramDataTypes.hpp"
 #include "HashGenerator.hpp"
 
 #include <memory>

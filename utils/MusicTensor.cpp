@@ -6,8 +6,8 @@ SignalTensor::SignalTensor(std::string &path){
 }
 
 SignalTensor::SignalTensor(std::vector<double> &vector){
-   get_tensor() = Vector<double>(vector.size());
-   utils::std_to_eigen_vector(vector, get_tensor(), 0, vector.size());
+   get_tensor() = Vector<std::complex<double>>(vector.size());
+   utils::std_to_complex_eigen_vector(vector, get_tensor(), 0, vector.size());
 }
 
 void SignalTensor::load_time_signal(std::string &path){
@@ -19,13 +19,14 @@ void SignalTensor::load_time_signal(std::string &path){
    // Cut to mono
    convert_to_mono();
 
+   get_tensor() = Vector<std::complex<double>>(audio_file.getNumSamplesPerChannel());
    // Copy samples into the tensor 
-   zazam::utils::std_to_eigen_vector(audio_file.samples[0], get_tensor(), 0, audio_file.getNumSamplesPerChannel());
+   zazam::utils::std_to_complex_eigen_vector(audio_file.samples[0], get_tensor(), 0, audio_file.getNumSamplesPerChannel());
 }
 
 void SignalTensor::slice_tensor(e_index &begin, e_index &dimension){
-   get_tensor() = Vector<double>(dimension); 
-   zazam::utils::std_to_eigen_vector(audio_file.samples[0], get_tensor(), begin, dimension);
+   get_tensor() = Vector<std::complex<double>>(dimension); 
+   zazam::utils::std_to_complex_eigen_vector(audio_file.samples[0], get_tensor(), begin, dimension);
 }
 
 void SignalTensor::convert_to_mono(){
@@ -36,4 +37,8 @@ void SignalTensor::convert_to_mono(){
       }
       audio_file.setNumChannels(1);
    }
+}
+
+void SignalTensor::normalize(){
+   get_tensor() /= get_tensor().constant(get_tensor().size()); 
 }

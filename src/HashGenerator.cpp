@@ -27,7 +27,7 @@ void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
 
 /**
  * @brief For every row of the matrix, the function map the the initial spectrogram 
- * to a matrix with the max amplitude between certain ranges. ("Song Key Points")
+ * to a matrix with the frequencies with the max amplitude between certain ranges. ("Song Key Points")
  * 
 */
 

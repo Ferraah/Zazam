@@ -6,20 +6,26 @@
 #include "ZazamDataTypes.hpp"
 #include "../AudioFile/AudioFile.h"
 #include <string>
+#include <complex>
 
 using namespace zazam;
 
-class SignalTensor: public fftcore::TensorFFTBase<double, 1>{
+class SignalTensor: public fftcore::TensorFFTBase<std::complex<double>, 1>{
     public:
         SignalTensor(std::string &);
 
         SignalTensor(std::vector<double> &);
 
         void load_time_signal(std::string &path);
+
         void slice_tensor(e_index &, e_index &);        
+
         AudioFile<double> get_audio_file(){
             return audio_file;
         };
+
+        void normalize();
+
     private:
         AudioFile<double> audio_file; 
         void convert_to_mono();

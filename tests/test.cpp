@@ -34,8 +34,10 @@ int main(){
     identificator.identify(fake_hash, result);
     
     */  
-
     Sequencer sequencer;
-    //sequencer.sequence_from_pat();
+    Song song;
+    string path = "../AudioFile/examples/song.wav";
+    //SignalTensor signal(path);
+    sequencer.sequence_from_path(path ,song);
     
 }
