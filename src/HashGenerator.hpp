@@ -9,10 +9,10 @@ class HashGenerator{
 
     public:
         HashGenerator(){};
-        void generate(Matrix_d& spectrogram, Vector_ui& result) ;
+        void generate(Matrix_d& , Vector_ui& , bool) ;
     private:
-        void reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_points_matrix);
-        void reduce_vector(const Vector_d& input, Vector_d& output);
+        void reduce_spectrogram(Matrix_d& , Matrix_d&,bool);
+        void reduce_vector(const Vector_d& , Vector_d& );
 };
 
 #endif

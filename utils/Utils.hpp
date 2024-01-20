@@ -4,6 +4,7 @@
 #include "ZazamDataTypes.hpp"
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 
 namespace zazam{
     namespace utils {
@@ -50,6 +51,27 @@ namespace zazam{
                 eigen_vector(i) = val; 
             } 
         } 
+
+        template<typename T>
+        void save_real_vector(Vector<T> &vector, std::string path){
+            // Save the tensor to Matrix Market format
+            std::ofstream file(path);
+            if (file.is_open()) {
+                file << "%%MatrixMarket tensor coordinate real general" << std::endl;
+                file << vector.size() << " " << vector.size() << std::endl;
+
+                // Iterate over the tensor and write each element to the file
+                for (int i = 0; i < vector.size(); ++i) {
+                    file << i+1 << " ";
+                    file << vector(i) << std::endl;
+                }
+
+                file.close();
+                std::cout << "Tensor saved to " << path << std::endl;
+            } else {
+                std::cerr << "Unable to open file: " << path << std::endl;
+            }
+        }
     }
 } 
 

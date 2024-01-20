@@ -29,18 +29,20 @@ file(GLOB_RECURSE SOURCES "src/*.cpp" "utils/*.cpp")
 add_library(ZAZAM SHARED ${SOURCES})
 
 # Define executable target
-add_executable(test.out tests/test.cpp)
+add_executable(identify.out tests/identify.cpp)
+add_executable(sequence.out tests/sequence.cpp)
 
 # link the library to link to the executable
 target_link_libraries(ZAZAM PUBLIC FFFT) 
-target_link_libraries(test.out PUBLIC ZAZAM) 
+target_link_libraries(identify.out PUBLIC ZAZAM) 
+target_link_libraries(sequence.out PUBLIC ZAZAM) 
 
 # specify the library's header file location
-target_include_directories(test.out PUBLIC
+target_include_directories(ZAZAM PUBLIC
                           "${PROJECT_SOURCE_DIR}/FFT-Carra-Ferrario-Gentile/ffft/include"
                           )
 
-target_include_directories(test.out PUBLIC
+target_include_directories(ZAZAM PUBLIC
                           "${PROJECT_SOURCE_DIR}/AudioFile"
                           )
 

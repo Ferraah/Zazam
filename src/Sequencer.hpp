@@ -19,9 +19,10 @@ class Sequencer
 {
     public:
         Sequencer(){};
-        void sequence_from_path(std::string &, Song &);
+        void sequence_from_path(std::string &, Song &, bool);
         //void sequence();
     private:
         void sequence_chunk(Vector_d &, FFTSolver<1, double> &);
+        std::string output_path = "../dataset/hash";
 };
 #endif

@@ -1,20 +1,26 @@
 #include "Identificator.hpp"
 #include <iostream>
+#include <filesystem>
 
-
-std::vector<Vector_ui> music_hashes;
-
+using namespace std;
 void Identificator::identify(Vector_ui &sample_hash, Song &result){
 
-   // From database
+   std::vector<Vector_ui> music_hashes;
+   std::vector<std::string> file_names;
 
-   Vector_ui fake_hash(8);
-   // Add fake song hashes
-   for(int i=0; i<8; i++){
-      music_hashes.push_back(fake_hash.setConstant(i*1000));
+   int count =0;
+   Vector_ui tmp;
+   for (const auto & entry : std::filesystem::directory_iterator(hash_dataset_path)){
+      // Debugging limit
+      if(count < 100) {
+         // Load hash from file
+         fftcore::utils::load_tensor_mtx(tmp, entry.path().string());
+         music_hashes.push_back(tmp);
+         // Load also the name of the file 
+         file_names.push_back(entry.path().filename());
+      }
+      count++;
    }
-
-
 
    std::vector<double> all_ratios; 
    std::vector<int> matches; 
@@ -35,12 +41,19 @@ void Identificator::identify(Vector_ui &sample_hash, Song &result){
          ratio = n_occurrences/(double)sample_hash.size();
          std::cout << "mode: " << mode << ", no: " << n_occurrences << std::endl;
       }
-      //utils::print_std_vector(matches);
       all_ratios.push_back(ratio);
    }
 
-   result.title = "test result";
-   //result.hash = music_hashes[find_max_element_index(all_ratios)];   
+
+   for(int i=0; i<all_ratios.size(); i++){
+      std::cout << "i: " << i<< ":" <<all_ratios[i] << std::endl;
+   }
+
+
+   int res_i = utils::find_max_element_index(all_ratios);
+   std::cout << "ID: " << res_i << std::endl; 
+   result.hash = music_hashes[res_i];   
+   result.title = file_names[res_i];
 }
 
 

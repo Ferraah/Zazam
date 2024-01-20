@@ -1,28 +1,30 @@
 #include "HashGenerator.hpp"
 #include <iostream>
 
-void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
+void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result, bool transpose = false) {
+
+    assert(spectrogram.size() > 0);
 
     Matrix_d key_points_matrix;
-    e_index rows_number = spectrogram.dimension(0);
-    e_index cols_number = zazam::KeyPointsNumber;
     
-    // Create key points matrix
-    std::cout << spectrogram<< std::endl;
-    reduce_spectrogram(spectrogram, key_points_matrix);
-    std::cout << key_points_matrix << std::endl;
-    // Inizialize hash vector
+    e_index rows_number = transpose ? spectrogram.dimension(1) : spectrogram.dimension(0);
+
+    e_index cols_number = zazam::KeyPointsNumber;
+
+    reduce_spectrogram(spectrogram, key_points_matrix, transpose);
     result = Vector_ui(rows_number);
 
     int hash;
     for(e_index i = 0; i<rows_number; i++){
         hash = cols_number; // Any other number other than 0 will work
-        for(e_index j=1; j<cols_number; j++){
+        for(e_index j=0; j<cols_number; j++){
             hash = 17 * hash + key_points_matrix(i, j);
         }
         result(i) = hash;
+        
     }
         
+    assert(result.size() > 0);
 }
 
 /**
@@ -31,17 +33,19 @@ void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result) {
  * 
 */
 
-void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_points_matrix) {
+void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_points_matrix, bool transpose=false) {
     Vector_d row;
-    e_index rows_number = spectrogram.dimension(0);
 
-    // Initialize new matrix
+    e_index rows_number = transpose ? spectrogram.dimension(1) : spectrogram.dimension(0);
+
     key_points_matrix = Matrix_d(rows_number, zazam::KeyPointsNumber);
-
     for(e_index y=0; y < rows_number; y++ ){
 
-        reduce_vector(spectrogram.chip(y,0), row);
-//        std::cout << spectrogram.chip(y, 0) << std::endl;
+        if(transpose)
+            reduce_vector(spectrogram.chip(y,1), row);
+        else
+            reduce_vector(spectrogram.chip(y,0), row);
+            
         key_points_matrix.chip(y,0) = row;
 
     }

@@ -2,6 +2,7 @@
 #define IDENTIFICATOR_HPP
 
 #include "../utils/ZazamDataTypes.hpp"
+#include "../FFT-Carra-Ferrario-Gentile/ffft/src/fftcore/utils/MtxFilesIO.hpp"
 #include "../utils/Utils.hpp"
 #include <vector>
 
@@ -15,6 +16,7 @@ class Identificator{
         void normalize_and_round(Vector_ui &);
         void fill_matches_vector(Vector_ui &, Vector_ui &, std::vector<int> &);
         void mode_of_vector(const std::vector<int> &, int &, int &);
+        std::string hash_dataset_path = "../dataset/hash";
 };
 
 #endif
