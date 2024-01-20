@@ -15,8 +15,12 @@ int main(){
     Song sample,result;
     std::string sample_path = "../dataset/samples/Burn_5s_noise.wav";
 
+
     sequencer.sequence_from_path(sample_path, sample, false);
 
     identificator.identify(sample.hash, result);
+
+    std::cout << "============================================================" << std::endl;
     std:cout << "Result: " << result.title << std::endl;
+    std::cout << "============================================================" << std::endl;
 }

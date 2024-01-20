@@ -11,11 +11,11 @@ class Identificator{
 
     public:
         Identificator(){};
-        void identify(Vector_ui &, Song &);
+        void identify(Vector_ui &, Song&) const;
     private:
-        void normalize_and_round(Vector_ui &);
-        void fill_matches_vector(Vector_ui &, Vector_ui &, std::vector<int> &);
-        void mode_of_vector(const std::vector<int> &, int &, int &);
+        void normalize_and_round(Vector_ui &) const;
+        void fill_matches_vector(const Vector_ui &, const Vector_ui &, std::vector<int> &) const;
+        void mode_of_vector(const std::vector<int> &, int &, int &) const;
         std::string hash_dataset_path = "../dataset/hash";
 };
 

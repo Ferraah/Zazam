@@ -2,62 +2,77 @@
 #include <iostream>
 #include <filesystem>
 
-using namespace std;
-void Identificator::identify(Vector_ui &sample_hash, Song &result){
+/**
+ * Identify a sample from a dataset of songs hases
+ * @param sample_hash The hash of the sample
+ * @return The Song object that has been identified by the algorithm.
+ * 
+*/
+void Identificator::identify(Vector_ui &sample_hash, Song &result) const{
 
+
+   // Dataset hashes and titles
    std::vector<Vector_ui> music_hashes;
    std::vector<std::string> file_names;
 
-   int count =0;
+   // --- Load dataset --- 
    Vector_ui tmp;
    for (const auto & entry : std::filesystem::directory_iterator(hash_dataset_path)){
-      // Debugging limit
-      if(count < 100) {
-         // Load hash from file
-         fftcore::utils::load_tensor_mtx(tmp, entry.path().string());
-         music_hashes.push_back(tmp);
-         // Load also the name of the file 
-         file_names.push_back(entry.path().filename());
-      }
-      count++;
+      // Load hash from file
+      fftcore::utils::load_tensor_mtx(tmp, entry.path().string());
+      music_hashes.push_back(tmp);
+      // Load also the name of the file 
+      file_names.push_back(entry.path().filename());
    }
 
+   // --- Identification algorithm ---
    std::vector<double> all_ratios; 
    std::vector<int> matches; 
    int mode, n_occurrences;
    double ratio;
-   
+
+   // "Normalize" the sample hash 
    normalize_and_round(sample_hash);
+   // For each sampled song in the dataset
    for(auto &music_hash: music_hashes){
       matches.clear();
+
+      // "Normalize" the current song hash 
       normalize_and_round(music_hash); 
+      // Fill the matches vector according to the algorithm specifications 
       fill_matches_vector(music_hash, sample_hash, matches);
-      
+
       if(matches.size() == 0){
-         std::cout << "No match" << std::endl;
          ratio = 0; 
       }else{
+         // If there is at least one match, calculate the ratio between matches
+         // and total tries 
+
+         // Find the element which appear the most in the matches vector
          mode_of_vector(matches, mode, n_occurrences);
          ratio = n_occurrences/(double)sample_hash.size();
-         std::cout << "mode: " << mode << ", no: " << n_occurrences << std::endl;
       }
+      
+      // Save the song matching ratio
       all_ratios.push_back(ratio);
    }
 
 
+   std::cout << "============================================================";
    for(int i=0; i<all_ratios.size(); i++){
-      std::cout << "i: " << i<< ":" <<all_ratios[i] << std::endl;
+      std::cout << "i: " << i << " | ratio: " << all_ratios[i] << std::endl;
    }
-
 
    int res_i = utils::find_max_element_index(all_ratios);
    std::cout << "ID: " << res_i << std::endl; 
+
+
    result.hash = music_hashes[res_i];   
    result.title = file_names[res_i];
 }
 
 
-void Identificator::normalize_and_round(Vector_ui &hash){
+void Identificator::normalize_and_round(Vector_ui &hash) const{
 
    double normalized_value;
    for(int i=0; i<hash.size(); i++){
@@ -66,7 +81,7 @@ void Identificator::normalize_and_round(Vector_ui &hash){
    }
 }
 
-void Identificator::fill_matches_vector(Vector_ui &music, Vector_ui &sample, std::vector<int> &matches_vector){
+void Identificator::fill_matches_vector(const Vector_ui &music, const Vector_ui &sample, std::vector<int> &matches_vector) const{
 
    for(int i=0; i<sample.size(); i++){
       for(int j=0; j<music.size(); j++){
@@ -78,7 +93,7 @@ void Identificator::fill_matches_vector(Vector_ui &music, Vector_ui &sample, std
 
 }
 
-void Identificator::mode_of_vector(const std::vector<int> &matches_vector, int &mode, int &max_occurrences){
+void Identificator::mode_of_vector(const std::vector<int> &matches_vector, int &mode, int &max_occurrences) const{
    
    assert(matches_vector.size() > 0);
 
