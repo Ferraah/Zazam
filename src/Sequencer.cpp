@@ -1,13 +1,11 @@
 
 #include "Sequencer.hpp"
 
-/**
- * Sequence a song from a WAV or AIFF file.
- * @param path WAV or AIFF audio file
- * @param save_hash if true, save to the location specified in Sequencer.hpp
- * @returns A Song object with title and hash
-*/
-void Sequencer::sequence_from_path(std::string &path, Song &result, bool save_hash = true) const{
+void Sequencer::sequence_from_path(const std::string &path, Song &result, bool save_hash) const{
+
+    if(save_hash){
+        assert(!output_path.empty() && "The hashes saving directory has not been declared.");
+    }
 
     // Initialize the tensor wrapper which will load the file
     SignalTensor song_tensor(path);
@@ -34,7 +32,7 @@ void Sequencer::sequence_from_path(std::string &path, Song &result, bool save_ha
     std::string base_filename = path.substr(path.find_last_of("/\\") + 1);
 
     if(save_hash)
-        zazam::utils::save_real_vector(result.hash, "../dataset/hash/"+base_filename+".txt");
+        zazam::utils::save_real_vector(result.hash, output_path+"/"+base_filename+".txt");
 
     // Write spectrogram matrix to file
     /*

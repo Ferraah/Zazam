@@ -72,6 +72,38 @@ namespace zazam{
                 std::cerr << "Unable to open file: " << path << std::endl;
             }
         }
+        
+        /**
+         * @brief Find the mode of the vector, i.e. the most repeated element.
+         * @param vector
+         * @param mode The most repeated element 
+         * @param max_occurrences The most repeated element number of occurrences 
+        */
+        template<typename T>
+        void mode_of_vector(const std::vector<T> &vector, T &mode, T &max_occurrences){
+        
+            assert(vector.size() > 0);
+
+            std::unordered_map<T, int> frequencyMap;
+
+            // Count the frequency of each number in the vector
+            for (auto &num : vector) {
+                frequencyMap[num]++;
+            }
+
+            // Find the mode (number with the highest frequency)
+            mode = vector[0]; // Initialize mode with the first element
+            max_occurrences = frequencyMap[mode];
+
+            for (const auto& entry : frequencyMap) {
+                if (entry.second > max_occurrences) {
+                    mode = entry.first;
+                    max_occurrences = entry.second;
+                }
+            }
+        
+        }
+
     }
 } 
 

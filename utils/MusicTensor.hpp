@@ -12,11 +12,11 @@ using namespace zazam;
 
 class SignalTensor: public fftcore::TensorFFTBase<std::complex<double>, 1>{
     public:
-        SignalTensor(std::string &);
+        SignalTensor(const std::string &);
 
         SignalTensor(std::vector<double> &);
 
-        void load_time_signal(std::string &path);
+        void load_time_signal(const std::string &path);
 
         void slice_tensor(e_index &, e_index &);        
 

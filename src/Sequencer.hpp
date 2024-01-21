@@ -15,12 +15,41 @@
 using namespace zazam;
 using namespace fftcore;
 
+
+/**
+ * @brief Sequencer class takes care of sequencing audio data into hashes vector
+ * through operations on its spectrogram.
+ *
+*/
 class Sequencer 
 {
     public:
+        /**
+         * @brief Contructor for Sequencer.
+         * @param _output_path The path of the directory in which the sequenced songs 
+         * hashes will be saved.
+        */
+        Sequencer(std::string _output_path):
+            output_path(_output_path)
+        {};
+        /**
+         * Constructor for Sequencer.
+        */
         Sequencer(){};
-        void sequence_from_path(std::string &, Song &, bool) const;
+
+
+        /**
+         * @brief Sequence a song from a WAV or AIFF file.
+         * @param path WAV or AIFF audio file path
+         * @param result The resulting Song object
+         * @param save_hash If true, save to the location specified in Sequencer.hpp
+         * @returns A Song object with title and hash
+        */
+        void sequence_from_path(const std::string &path, Song &resukt, bool save_hash = true) const;
     private:
-        std::string output_path = "../dataset/hash";
+        /**
+         * @brief Path of the directory where the sequenced songs hashes will be saved. 
+        */
+        std::string output_path; 
 };
 #endif

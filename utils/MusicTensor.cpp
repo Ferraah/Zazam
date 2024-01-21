@@ -1,7 +1,7 @@
 #include "MusicTensor.hpp"
 
 
-SignalTensor::SignalTensor(std::string &path){
+SignalTensor::SignalTensor(const std::string &path){
    load_time_signal(path);
 }
 
@@ -10,7 +10,7 @@ SignalTensor::SignalTensor(std::vector<double> &vector){
    utils::std_to_complex_eigen_vector(vector, get_tensor(), 0, vector.size());
 }
 
-void SignalTensor::load_time_signal(std::string &path){
+void SignalTensor::load_time_signal(const std::string &path){
 
    // Load file form path
    bool loadedOK = audio_file.load(path);

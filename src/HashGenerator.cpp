@@ -1,17 +1,17 @@
 #include "HashGenerator.hpp"
 #include <iostream>
 
-void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result, bool transpose = false) {
+void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result, bool transpose_spectrogram) {
 
     assert(spectrogram.size() > 0);
 
     Matrix_d key_points_matrix;
     
-    e_index rows_number = transpose ? spectrogram.dimension(1) : spectrogram.dimension(0);
+    e_index rows_number = transpose_spectrogram ? spectrogram.dimension(1) : spectrogram.dimension(0);
 
     e_index cols_number = zazam::KeyPointsNumber;
 
-    reduce_spectrogram(spectrogram, key_points_matrix, transpose);
+    map_to_key_points_matrix(spectrogram, key_points_matrix, transpose_spectrogram);
     result = Vector_ui(rows_number);
 
     int hash;
@@ -27,13 +27,7 @@ void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result, bool tran
     assert(result.size() > 0);
 }
 
-/**
- * @brief For every row of the matrix, the function map the the initial spectrogram 
- * to a matrix with the frequencies with the max amplitude between certain ranges. ("Song Key Points")
- * 
-*/
-
-void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_points_matrix, bool transpose=false) {
+void HashGenerator::map_to_key_points_matrix(Matrix_d& spectrogram, Matrix_d& key_points_matrix, bool transpose=false) {
     Vector_d row;
 
     e_index rows_number = transpose ? spectrogram.dimension(1) : spectrogram.dimension(0);
@@ -42,9 +36,9 @@ void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_poin
     for(e_index y=0; y < rows_number; y++ ){
 
         if(transpose)
-            reduce_vector(spectrogram.chip(y,1), row);
+            map_to_key_points_vector(spectrogram.chip(y,1), row);
         else
-            reduce_vector(spectrogram.chip(y,0), row);
+            map_to_key_points_vector(spectrogram.chip(y,0), row);
             
         key_points_matrix.chip(y,0) = row;
 
@@ -52,7 +46,7 @@ void HashGenerator::reduce_spectrogram(Matrix_d& spectrogram, Matrix_d& key_poin
 
 }
 
-void HashGenerator::reduce_vector(const Vector_d& input, Vector_d& output){
+void HashGenerator::map_to_key_points_vector(const Vector_d& input, Vector_d& output){
     e_index range_dim =
         (zazam::KeyPointsRange.second - zazam::KeyPointsRange.first) / zazam::KeyPointsNumber;
 
