@@ -8,7 +8,7 @@ void Sequencer::sequence_from_path(const std::string &path, Song &result, bool s
     }
 
     // Initialize the tensor wrapper which will load the file
-    SignalTensor song_tensor(path);
+    MusicTensor<double> song_tensor(path);
     // This matrix will contain the spectrogram
     Matrix_d song_matrix;
 
