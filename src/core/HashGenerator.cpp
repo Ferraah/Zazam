@@ -1,5 +1,6 @@
 #include "HashGenerator.hpp"
-#include <iostream>
+
+using namespace zazamcore; 
 
 void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result, bool transpose_spectrogram) {
 
@@ -9,7 +10,7 @@ void HashGenerator::generate(Matrix_d& spectrogram, Vector_ui& result, bool tran
     
     e_index rows_number = transpose_spectrogram ? spectrogram.dimension(1) : spectrogram.dimension(0);
 
-    e_index cols_number = zazam::KeyPointsNumber;
+    e_index cols_number = zazamcore::KeyPointsNumber;
 
     map_to_key_points_matrix(spectrogram, key_points_matrix, transpose_spectrogram);
     result = Vector_ui(rows_number);
@@ -32,7 +33,7 @@ void HashGenerator::map_to_key_points_matrix(Matrix_d& spectrogram, Matrix_d& ke
 
     e_index rows_number = transpose ? spectrogram.dimension(1) : spectrogram.dimension(0);
 
-    key_points_matrix = Matrix_d(rows_number, zazam::KeyPointsNumber);
+    key_points_matrix = Matrix_d(rows_number, zazamcore::KeyPointsNumber);
     for(e_index y=0; y < rows_number; y++ ){
 
         if(transpose)
@@ -48,13 +49,13 @@ void HashGenerator::map_to_key_points_matrix(Matrix_d& spectrogram, Matrix_d& ke
 
 void HashGenerator::map_to_key_points_vector(const Vector_d& input, Vector_d& output){
     e_index range_dim =
-        (zazam::KeyPointsRange.second - zazam::KeyPointsRange.first) / zazam::KeyPointsNumber;
+        (zazamcore::KeyPointsRange.second - zazamcore::KeyPointsRange.first) / zazamcore::KeyPointsNumber;
 
-    e_index offset = zazam::KeyPointsRange.first-1;
+    e_index offset = zazamcore::KeyPointsRange.first-1;
     Vector_d sub_vector(range_dim);
 
-    output = Vector_d(zazam::KeyPointsNumber);
-    for(e_index j=0; j<zazam::KeyPointsNumber; j++){
+    output = Vector_d(zazamcore::KeyPointsNumber);
+    for(e_index j=0; j<zazamcore::KeyPointsNumber; j++){
         
         // Create subvector
         for(e_index i=0; i<range_dim; i++){

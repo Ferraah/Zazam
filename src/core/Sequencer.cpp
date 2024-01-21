@@ -1,5 +1,6 @@
-
 #include "Sequencer.hpp"
+
+using namespace zazamcore;
 
 void Sequencer::sequence_from_path(const std::string &path, Song &result, bool save_hash) const{
 
@@ -37,7 +38,7 @@ void Sequencer::sequence_from_path(const std::string &path, Song &result, bool s
     // ----------------------------------
 
     if(save_hash)
-        zazam::utils::save_real_vector(result.hash, output_path+"/"+base_filename+".mtx");
+        zazamcore::utils::save_real_vector(result.hash, output_path+"/"+base_filename+".mtx");
 
 
     result.title = path;

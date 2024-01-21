@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 
-namespace zazam{
+namespace zazamcore{
     namespace utils {
 
         template<typename Scalar> 

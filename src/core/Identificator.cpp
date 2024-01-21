@@ -2,6 +2,7 @@
 #include <iostream>
 #include <filesystem>
 
+using namespace zazamcore;
 /**
  * Identify a sample from a dataset of songs hases
  * @param sample_hash The hash of the sample
@@ -52,7 +53,7 @@ void Identificator::identify(const Vector_ui &sample_hash, Song &result) const{
          // and total tries 
 
          // Find the element which appear the most in the matches vector
-         zazam::utils::mode_of_vector(matches, mode, n_occurrences);
+         zazamcore::utils::mode_of_vector(matches, mode, n_occurrences);
          ratio = n_occurrences/(double)sample_hash.size();
       }
       

@@ -4,7 +4,7 @@
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <utility>
 
-namespace zazam{
+namespace zazamcore{
 
     /**
      *  In this application, vectors are one-ranked Eigen tensors to mantain coherence 

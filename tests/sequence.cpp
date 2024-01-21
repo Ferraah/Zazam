@@ -1,19 +1,18 @@
-#include "../src/HashGenerator.hpp"
-#include "../src/Identificator.hpp"
-#include "../src/Sequencer.hpp"
-#include "../utils/MusicTensor.hpp"
+#include "../src/core/HashGenerator.hpp"
+#include "../src/core/Identificator.hpp"
+#include "../src/core/Sequencer.hpp"
 #include <iostream>
 #include <vector>
 #include <filesystem>
 
 using namespace std;
-
+using namespace zazamcore;
 int main(){
 
-    Sequencer sequencer("../dataset/hashes");
+    Sequencer sequencer("../local_dataset/hashes");
     Song song ;
 
-    std::string wav_path = "../dataset/wav";
+    std::string wav_path = "../local_dataset/wav";
     for (const auto & entry : std::filesystem::directory_iterator(wav_path)){
         std::cout << entry.path() << std::endl;
         std::string path = entry.path().string();
