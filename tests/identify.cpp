@@ -13,7 +13,7 @@ int main(){
     Identificator identificator("../dataset/hashes");
     Sequencer sequencer;
     Song sample,result;
-    std::string sample_path = "../dataset/samples/21 Savage - redrum_5s.wav";
+    std::string sample_path = "../dataset/samples/Burn_5s_noise.wav";
 
 
     sequencer.sequence_from_path(sample_path, sample, false);

@@ -9,7 +9,6 @@
 namespace zazam{
     namespace utils {
 
-        // @Todo: ADD ASSERTS
         template<typename Scalar> 
         int find_max_element_index(const Vector<Scalar> &input, Scalar &max_element){
             auto max = std::max_element(input.data(), input.data()+input.size());
@@ -51,7 +50,13 @@ namespace zazam{
                 eigen_vector(i) = val; 
             } 
         } 
-
+        
+        /**
+         * @brief Save a 1-ranked eigen vector to file according to the this app standard notations. 
+         * @see MtxFilesIO in ffft library
+         * @param vector The vector to save.
+         * @param path The location where to save the file.
+        */
         template<typename T>
         void save_real_vector(Vector<T> &vector, std::string path){
             // Save the tensor to Matrix Market format

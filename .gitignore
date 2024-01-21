@@ -43,7 +43,7 @@
 
 # CMake directories
 build/
-dataset/
+local_dataset/
 Debug/
 Release/
 CMakeFiles/

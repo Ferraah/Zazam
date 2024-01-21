@@ -29,17 +29,16 @@ void Sequencer::sequence_from_path(const std::string &path, Song &result, bool s
 
     // --- Output saving ---
 
+    // Retrieve filename from path string
     std::string base_filename = path.substr(path.find_last_of("/\\") + 1);
+    size_t pos = base_filename.find('.');
+    if (pos != std::string::npos)
+        base_filename = base_filename.substr(0, pos);
+    // ----------------------------------
 
     if(save_hash)
-        zazam::utils::save_real_vector(result.hash, output_path+"/"+base_filename+".txt");
+        zazam::utils::save_real_vector(result.hash, output_path+"/"+base_filename+".mtx");
 
-    // Write spectrogram matrix to file
-    /*
-    unsigned int file_index = 0;
-    spectrograms[0].write_to_file("../dataset/txt/"+ base_filename+ ".txt");
-    file_index++;
-    */
 
     result.title = path;
 }
