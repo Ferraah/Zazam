@@ -1,6 +1,7 @@
 #include "../src/core/HashGenerator.hpp"
 #include "../src/core/Identificator.hpp"
 #include "../src/core/Sequencer.hpp"
+#include "../src/realtime/Recorder.hpp"
 
 #include <iostream>
 #include <vector>
@@ -11,12 +12,12 @@ using namespace zazamcore;
 
 int main(){
     Identificator identificator("../local_dataset/hashes");
-    Sequencer sequencer;
+    Sequencer sequencer("../local_dataset/hashes");
     Song sample,result;
-    std::string sample_path = "../local_dataset/samples/Burn_5s_noise.wav";
+    std::string sample_path = "../local_dataset/samples/redrum_raw.wav";
 
 
-    sequencer.sequence_from_path(sample_path, sample, false);
+    sequencer.sequence(sample_path, sample, false);
 
     identificator.identify(sample.hash, result);
 

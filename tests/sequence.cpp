@@ -16,6 +16,6 @@ int main(){
     for (const auto & entry : std::filesystem::directory_iterator(wav_path)){
         std::cout << entry.path() << std::endl;
         std::string path = entry.path().string();
-        sequencer.sequence_from_path(path, song);
+        sequencer.sequence(path, song);
     }
 }

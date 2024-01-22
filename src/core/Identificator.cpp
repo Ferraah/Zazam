@@ -65,11 +65,22 @@ void Identificator::identify(const Vector_ui &sample_hash, Song &result) const{
    std::cout << "============================================================";
    for(int i=0; i<all_ratios.size(); i++){
       std::cout << "i: " << i << " | ratio: " << all_ratios[i] << std::endl;
-      std::cout << file_names[i] << std::endl; 
    }
 
-   int res_i = utils::find_max_element_index(all_ratios);
+   for(int i=0; i<all_ratios.size(); i++){
+      std::cout << i << ": " << file_names[i] << std::endl; 
+   }
+
+   const int res_i = utils::find_max_element_index(all_ratios);
+
+   double match_ratio = all_ratios[res_i]; 
+   all_ratios.erase(all_ratios.begin() + res_i);
+   double no_match_average_ratio = accumulate(all_ratios.begin(), all_ratios.end(), 0.0)/all_ratios.size();              
+
+   std::cout << "============================================================" << std::endl;
    std::cout << "ID: " << res_i << std::endl; 
+   std::cout << "Ratio: " << match_ratio << std::endl; 
+   std::cout << "Average no matches ratio: " << no_match_average_ratio << std::endl; 
 
 
    result.hash = music_hashes[res_i];   

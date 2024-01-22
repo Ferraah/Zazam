@@ -42,12 +42,33 @@ namespace zazamcore{
              * @param save_hash If true, save to the location specified in Sequencer.hpp
              * @returns A Song object with title and hash
             */
-            void sequence_from_path(const std::string &path, Song &resukt, bool save_hash = true) const;
+            void sequence(const std::string &path, Song &result, bool save_hash = true) const;
+
+            /**
+             * @brief Sequence a song from vector.
+             * @param audio_vector WAV or AIFF audio file path
+             * @param result The resulting Song object
+             * @param save_hash If true, save to the location specified in Sequencer.hpp
+             * @returns A Song object with title and hash
+            */
+            void sequence(const std::vector<double> &audio_vector, Song &result, bool save_hash = true) const;
+
         private:
             /**
              * @brief Path of the directory where the sequenced songs hashes will be saved. 
             */
             std::string output_path; 
-    };
+
+            /**
+             * @brief Sequence a song from a music tensor.
+             * @param song_tensor 
+             * @param result The resulting Song object
+             * @param save_hash If true, save to the location specified in Sequencer.hpp
+             * @returns A Song object with title and hash
+            */
+            void sequence(MusicTensor<double> &song_tensor, Song &result, std::string file_name, bool save_hash = true) const;
+            
+
+   };
 }
 #endif

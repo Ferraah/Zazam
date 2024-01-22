@@ -28,7 +28,7 @@ namespace zazamcore{
             * @brief Constructor for MusicTensor
             * @param vector Input vector to load 
          */
-         MusicTensor(std::vector<Scalar> &vector);
+         MusicTensor(const std::vector<Scalar> &vector);
 
          void load_time_signal(const std::string &path);
 
@@ -51,7 +51,7 @@ namespace zazamcore{
    }
 
    template<typename Scalar>
-   MusicTensor<Scalar>::MusicTensor(std::vector<Scalar> &vector){
+   MusicTensor<Scalar>::MusicTensor(const std::vector<Scalar> &vector){
       this->get_tensor() = Vector<std::complex<Scalar>>(vector.size());
       utils::std_to_complex_eigen_vector(vector, this->get_tensor(), 0, vector.size());
    }

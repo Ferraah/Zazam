@@ -31,11 +31,15 @@ add_library(ZAZAM SHARED ${SOURCES})
 # Define executable target
 add_executable(identify.out tests/identify.cpp)
 add_executable(sequence.out tests/sequence.cpp)
+add_executable(record.out tests/record.cpp)
 
+find_package(portaudio)
 # link the library to link to the executable
 target_link_libraries(ZAZAM PUBLIC FFFT) 
+target_link_libraries(ZAZAM PUBLIC portaudio) 
 target_link_libraries(identify.out PUBLIC ZAZAM) 
 target_link_libraries(sequence.out PUBLIC ZAZAM) 
+target_link_libraries(record.out PUBLIC ZAZAM) 
 
 # specify the library's header file location
 target_include_directories(ZAZAM PUBLIC
