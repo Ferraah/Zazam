@@ -17,7 +17,7 @@ int main(){
     std::string sample_path = "../local_dataset/samples/redrum_raw.wav";
 
 
-    sequencer.sequence(sample_path, sample, false);
+    sequencer.sequence(sample_path, sample, true);
 
     identificator.identify(sample.hash, result);
 

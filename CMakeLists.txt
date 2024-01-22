@@ -29,9 +29,9 @@ file(GLOB_RECURSE SOURCES "src/*.cpp" "utils/*.cpp")
 add_library(ZAZAM SHARED ${SOURCES})
 
 # Define executable target
-add_executable(identify.out tests/identify.cpp)
-add_executable(sequence.out tests/sequence.cpp)
-add_executable(record.out tests/record.cpp)
+add_executable(identify.out examples/identify.cpp)
+add_executable(sequence.out examples/sequence.cpp)
+add_executable(record.out examples/record.cpp)
 
 find_package(portaudio)
 # link the library to link to the executable

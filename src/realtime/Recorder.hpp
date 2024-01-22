@@ -4,11 +4,10 @@
 #include "portaudio.h"
 
 #define SAMPLE_RATE  (44100)
-#define FRAMES_PER_BUFFER (1024)
+#define FRAMES_PER_BUFFER (2048)
 #define NUM_SECONDS     (3)
 #define NUM_CHANNELS    (2)
 #define DITHER_FLAG     (0) 
-#define WRITE_TO_FILE   (1)
 
 
 /* Select sample format. */
@@ -26,6 +25,11 @@ namespace zazamrealtime{
         SAMPLE      *recordedSamples;
     } paTestData;
 
+    /**
+     * Recorder class contains methods to record from microphone using 
+     * PortaAudio library. The code has been adapted form the library examples.
+     * @todo: Modernize the code. 
+    */
     template<typename Scalar>
     class Recorder{
         public:
