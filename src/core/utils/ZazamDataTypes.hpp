@@ -35,7 +35,7 @@ namespace zazamcore{
     };
 
     // The range of frequencies to subdivide 
-    static const std::pair<int, int> KeyPointsRange = {40,200};
+    static const std::pair<int, int> KeyPointsRange = {10,200};
 
     // The number of key points to use
     static const int KeyPointsNumber = 4;
