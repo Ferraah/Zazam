@@ -53,5 +53,5 @@ identificator.identify(sample.hash, result);
 ```
 ## Notes
 ## References 
-The algorithm has been adapted from Joseph DeChicchis's paper 'A Music Identification Algorithm which Utilizes the Fourier
+The algorithm has been adapted from @jdechicchis's paper 'A Music Identification Algorithm which Utilizes the Fourier
 Analysis of Audio Signals'.
